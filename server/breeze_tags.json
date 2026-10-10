@@ -1,0 +1,552 @@
+{
+  "_comment": "Breeze TTS 2 vocal-event vocabulary — the single source for the client (tags.py), the server overlay (/v1/capabilities, deployed next to it) and TAGS.md (tests/test_tags.py checks the doc lists every entry). The model has no closed tag list and no tag tokens: tags are plain text it learned in training, so this records what is documented and what was measured, not what is allowed. Status (measured on goldielocks, 2026-10-07, 107 cases, ASR-scored): verified = performed and audible (ASR or ear); accepted = never read aloud, effect plausible but unverified by ear; harmful = derails generation, don't use; pending = not measured.",
+  "control_token_pattern": "<\\|AUDIO\\|>|<\\|audio_eos\\|>",
+  "inline_token_pattern": "\\[S\\d\\]|<ins_(?:bos|eos)>",
+  "english_bracket_event_pattern": "\\[([A-Za-z][A-Za-z '\\-]*)\\]",
+  "tiers": {
+    "documented": "Named in the open-weights model card and upstream README (the open-weights model's own examples).",
+    "hosted": "BreezeBlue's 34-event list for its hosted model (docs.breezeblue.ai/guides/audio-tags); status on the open weights is per local validation.",
+    "experimental": "Other spellings people reach for; free-form text the model may or may not perform."
+  },
+  "events": [
+    {
+      "tag": "(laugh)",
+      "lang": "en",
+      "tier": "documented",
+      "category": "laughter",
+      "status": "verified"
+    },
+    {
+      "tag": "(cough)",
+      "lang": "en",
+      "tier": "documented",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "(clears throat)",
+      "lang": "en",
+      "tier": "documented",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sigh)",
+      "lang": "en",
+      "tier": "documented",
+      "category": "breathing",
+      "status": "verified"
+    },
+    {
+      "tag": "[笑]",
+      "lang": "zh",
+      "tier": "documented",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "[咳嗽]",
+      "lang": "zh",
+      "tier": "documented",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "[清嗓子]",
+      "lang": "zh",
+      "tier": "documented",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "[叹气]",
+      "lang": "zh",
+      "tier": "documented",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(laughs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "(chuckles)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "(giggles)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "(crying)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sobs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "(whimpers)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "(groans)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "(moans)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sighs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(gasps)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(inhales)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(exhales)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(breathing heavily)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(whispers)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "(shouts)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "(screams)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "verified"
+    },
+    {
+      "tag": "(singing)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "(humming)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "harmful"
+    },
+    {
+      "tag": "(stutters)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "(pause)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "(coughs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sniffs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "(smacks lips)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "mouth",
+      "status": "accepted"
+    },
+    {
+      "tag": "(clicks tongue)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "mouth",
+      "status": "accepted"
+    },
+    {
+      "tag": "(yawns)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sneezes)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "verified"
+    },
+    {
+      "tag": "(hiccups)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(burps)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(gulps)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(gags)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(grunts)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "(scoffs)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "(snorts)",
+      "lang": "en",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "[轻笑]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "[咯咯笑]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "[哭声]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "[抽泣]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "[呜咽]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "[呻吟]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "[哀号]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "crying",
+      "status": "accepted"
+    },
+    {
+      "tag": "[惊呼]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "[吸气]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "[呼气]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "[喘息]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "[耳语]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[喊叫]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[惨叫]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[唱歌]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[哼歌]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[结巴]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[停顿]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "delivery",
+      "status": "accepted"
+    },
+    {
+      "tag": "[清嗓]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "[吸鼻子]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "throat",
+      "status": "accepted"
+    },
+    {
+      "tag": "[咂嘴]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "mouth",
+      "status": "accepted"
+    },
+    {
+      "tag": "[啧嘴]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "mouth",
+      "status": "accepted"
+    },
+    {
+      "tag": "[打哈欠]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[打喷嚏]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[打嗝]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[打饱嗝]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[吞咽]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[干呕]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "[闷哼]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "[冷笑]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "[哼鼻子]",
+      "lang": "zh",
+      "tier": "hosted",
+      "category": "reaction",
+      "status": "accepted"
+    },
+    {
+      "tag": "(gasp)",
+      "lang": "en",
+      "tier": "experimental",
+      "category": "breathing",
+      "status": "accepted"
+    },
+    {
+      "tag": "(yawn)",
+      "lang": "en",
+      "tier": "experimental",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(sneeze)",
+      "lang": "en",
+      "tier": "experimental",
+      "category": "reflex",
+      "status": "accepted"
+    },
+    {
+      "tag": "(chuckle)",
+      "lang": "en",
+      "tier": "experimental",
+      "category": "laughter",
+      "status": "accepted"
+    },
+    {
+      "tag": "(whisper)",
+      "lang": "en",
+      "tier": "experimental",
+      "category": "delivery",
+      "status": "accepted"
+    }
+  ]
+}

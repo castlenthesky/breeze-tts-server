@@ -1,0 +1,9 @@
+# Runs inside the image's Python 3.12.
+line-length = 100
+target-version = "py312"
+src = ["server"]
+# The validation matrix is a dense one-off measurement script; it isn't held to the style.
+extend-exclude = ["validation"]
+
+[lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

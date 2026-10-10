@@ -1,0 +1,17 @@
+# DGX Spark / GB10 tuning, merged over compose.yml. Select it in .env:
+#   COMPOSE_FILE=compose.yml:compose.gb10.yml
+services:
+  breeze-tts-2:
+    # The host's network, as the rest of the Spark's model servers run; the port is
+    # then the server's own (PORT), not a mapping.
+    network_mode: host
+    ports: !reset []
+    environment:
+      PORT: ${BREEZE_PORT:-8500}
+    # The GB10's Cortex-X925 big cores (3.9 GHz; checked with `lscpu -e` and
+    # cpu_capacity: 5-9 and 15-19 are X925, 0-4 and 10-14 the A725 little cores).
+    # The frame loop is launch-latency bound, so keep it off the little cores.
+    cpuset: "5-9,15-19"
+    labels:
+      # Lets llama-swap on the Spark stop this container to free unified memory.
+      spark.managed: llama-swap

@@ -1,0 +1,15 @@
+breeze-tts-server
+Copyright 2026 Brian Henson. Licensed under the Apache License, Version 2.0 (LICENSE).
+
+This image builds on Breeze TTS 2's inference code
+(https://github.com/breezeblue-ai/breeze-tts, Apache License 2.0), which it clones at
+a pinned commit and imports unmodified. server/yggdrasil_breeze_fast.py contains a
+copy of upstream's streaming frame loop, adapted.
+
+The Breeze TTS 2 model weights (https://huggingface.co/BreezeBlue/Breeze-TTS-2) are
+NOT part of this repository and are NOT covered by its license. They are licensed by
+RESONIA, Inc. (BreezeBlue) under the BreezeBlue Research and Non-Commercial License
+Agreement, which also governs derivative models and self-hosted outputs: research and
+non-commercial use only; commercial use requires a separate written license from
+BreezeBlue. The `weights` service downloads them from Hugging Face; by running it you
+accept that agreement (its text ships with the weights, as LICENSE in the model dir).

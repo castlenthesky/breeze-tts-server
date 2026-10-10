@@ -1,0 +1,4 @@
+*
+!server/
+!docker/
+server/__pycache__/

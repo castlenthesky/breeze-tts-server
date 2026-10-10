@@ -1,0 +1,14 @@
+# Test-only environment; the server's own dependencies are pinned in docker/requirements.lock.
+[project]
+name = "breeze-tts-server"
+version = "2026.10.07"
+requires-python = ">=3.12"
+
+[dependency-groups]
+test = ["fastapi", "httpx", "numpy", "soundfile", "python-multipart", "pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests/test_overlay.py"]

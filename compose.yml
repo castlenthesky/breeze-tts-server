@@ -1,0 +1,72 @@
+# Breeze TTS 2 + the yggdrasil API on :8500. `docker compose up -d` builds the image,
+# downloads the weights once (the `weights` service), then starts `breeze-tts-2`.
+# Settings come from .env (see .env.example); GB10 / DGX Spark tuning is the opt-in
+# compose.gb10.yml.
+x-image: &image
+  image: breeze-tts-server:${BREEZE_IMAGE_TAG:-58ec70c}
+  build:
+    context: .
+    args:
+      UID: ${UID:-1000}
+      GID: ${GID:-1000}
+
+services:
+  weights:
+    <<: *image
+    entrypoint: [download-weights.sh]
+    environment:
+      BREEZE_MODEL_DIR: /models/breeze-tts-2
+    volumes:
+      - ${MODEL_DIR:-./models}:/models
+      - cache:/cache
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: "no"
+
+  breeze-tts-2:
+    <<: *image
+    container_name: ${BREEZE_CONTAINER_NAME:-breeze-tts-2}
+    depends_on:
+      weights:
+        condition: service_completed_successfully
+    ports:
+      - "${BREEZE_PORT:-8500}:8500"
+    ipc: host
+    environment:
+      PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True
+      # full | graphs | eager | full+compile — see README. scripts/pick-fast-mode.sh
+      # finds the fastest one that warms up on this GPU and writes it to .env.
+      BREEZE_FAST_MODE: ${BREEZE_FAST_MODE:-full}
+      # Upstream's per-frame loop, not the overlay's lean one: A/B 2026-10-07
+      # (full mode, SM ~2515-2535 MHz) put lean within 0.5% on steady × and
+      # frame p95, under the 1.5% bar for carrying our own loop.
+      BREEZE_LEAN_LOOP: "0"
+      # Dual CFG in fast modes crashes the process (device-side gather assert,
+      # 2026-10-07); keep it refused with a 400. Eager mode still runs it.
+      BREEZE_DUAL_CFG_FAST: "0"
+      # Host-side work per frame is one Python thread launching CUDA graphs;
+      # torch's default of one OpenMP thread per visible core only adds contention.
+      OMP_NUM_THREADS: "4"
+      # 1 = upstream's plain API from the same image (rollback; none of our endpoints).
+      BREEZE_UPSTREAM: ${BREEZE_UPSTREAM:-0}
+    volumes:
+      - ${MODEL_DIR:-./models}:/models:ro
+      - ${DATA_DIR:-./data}/outputs:/outputs # saved voices live in outputs/voices
+      - cache:/cache
+    # Fast modes keep CUDA-graph workspaces resident (~14.4 GB; eager ~7.7 GB).
+    mem_limit: ${BREEZE_MEM_LIMIT:-28g}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    stop_grace_period: 30s
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  cache:
+    name: ${BREEZE_CACHE_VOLUME:-breeze-tts-cache}

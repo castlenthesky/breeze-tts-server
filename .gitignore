@@ -1,0 +1,17 @@
+# Weights, saved voices and local settings: never committed.
+/models/*
+!/models/.gitkeep
+/data/*
+!/data/outputs/
+/data/outputs/*
+!/data/outputs/.gitkeep
+.env
+
+# Validation output (refs are synthetic designed voices, regenerated on demand).
+validation/runs/
+validation/refs/
+
+__pycache__/
+.ruff_cache/
+.pytest_cache/
+.venv/
