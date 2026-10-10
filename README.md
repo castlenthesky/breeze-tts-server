@@ -57,11 +57,13 @@ supports. Clients should read it rather than hard-code them.
 
 | Service | Role |
 |---|---|
-| `weights` | One-shot. Downloads `BreezeBlue/Breeze-TTS-2` at a pinned revision into `$MODEL_DIR/breeze-tts-2`. A no-op once a marker file records that revision. |
+| `weights` | One-shot. Downloads `BreezeBlue/Breeze-TTS-2` at a pinned revision into `$MODEL_DIR/$BREEZE_MODEL_NAME`, only if it isn't already there. A no-op once a marker file records that revision. |
 | `breeze-tts-2` | The API on `:8500`. Starts once `weights` succeeds. |
 
 State on the host:
-- `$MODEL_DIR` (default `./models`): the weights, mounted read-only into the server.
+- `$MODEL_DIR` (default `./models`): the host folder the weights are read from, mounted
+  read-only into the server. The model is the `$BREEZE_MODEL_NAME` folder inside it
+  (default `breeze-tts-2`).
 - `$DATA_DIR/outputs/voices` (default `./data`): saved voices.
 - The `breeze-tts-cache` volume: torch/triton compile caches.
 
@@ -73,10 +75,24 @@ See `.env.example`. The main ones:
 |---|---|---|
 | `BREEZE_FAST_MODE` | `full` | `full`, `graphs`, `eager` or `full+compile` (below) |
 | `BREEZE_PORT` | `8500` | host port |
-| `MODEL_DIR`, `DATA_DIR` | `./models`, `./data` | point at existing weights to skip the download |
+| `MODEL_DIR` | `./models` | host folder holding the model, e.g. a shared `/home/you/models/tts`. Absolute path; compose doesn't expand `~` |
+| `BREEZE_MODEL_NAME` | `breeze-tts-2` | the model's folder inside `MODEL_DIR` |
+| `DATA_DIR` | `./data` | saved voices (`outputs/voices`) |
 | `BREEZE_MEM_LIMIT` | `28g` | container memory limit |
 | `BREEZE_UPSTREAM` | `0` | `1` runs upstream's plain API from the same image (rollback) |
 | `COMPOSE_FILE` | | `compose.yml:compose.gb10.yml` on a DGX Spark |
+
+### Sharing weights with other stacks
+
+The weights live on the host, never in the image. To keep one copy per machine, point
+`MODEL_DIR` at the host's shared models folder:
+
+```bash
+echo "MODEL_DIR=$HOME/models/tts" >> .env   # the model then lives at ~/models/tts/breeze-tts-2
+```
+
+If the model is already there, the `weights` service checks it against the pinned revision
+and downloads nothing. If not, it downloads once into that folder.
 
 ### Fast modes
 

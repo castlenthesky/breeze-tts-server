@@ -15,8 +15,10 @@ services:
     <<: *image
     entrypoint: [download-weights.sh]
     environment:
-      BREEZE_MODEL_DIR: /models/breeze-tts-2
+      BREEZE_MODEL_DIR: /models/${BREEZE_MODEL_NAME:-breeze-tts-2}
     volumes:
+      # The host folder holding the model (shared with other stacks is fine):
+      # weights are fetched only if $MODEL_DIR/$BREEZE_MODEL_NAME isn't there yet.
       - ${MODEL_DIR:-./models}:/models
       - cache:/cache
     cap_drop: [ALL]
@@ -34,6 +36,7 @@ services:
     ipc: host
     environment:
       PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True
+      BREEZE_MODEL_DIR: /models/${BREEZE_MODEL_NAME:-breeze-tts-2}
       # full | graphs | eager | full+compile — see README. scripts/pick-fast-mode.sh
       # finds the fastest one that warms up on this GPU and writes it to .env.
       BREEZE_FAST_MODE: ${BREEZE_FAST_MODE:-full}
